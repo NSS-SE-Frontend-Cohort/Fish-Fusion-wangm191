@@ -1,4 +1,4 @@
-export const boatInventory = Object.freeze([
+let fishes = [
     { id: 1, species: "Halibut", weight: 6, price: 3.55, amount: 30 },
     { id: 2, species: "Mackerel", weight: 3, price: 4.10, amount: 48 },
     { id: 3, species: "Salmon", weight: 5, price: 3.05, amount: 25 },
@@ -7,8 +7,27 @@ export const boatInventory = Object.freeze([
     { id: 6, species: "Orange Roughy", weight: 4, price: 6.95, amount: 37 },
     { id: 7, species: "Tuna", weight: 18, price: 8.66, amount: 5 },
     { id: 8, species: "Puffer", weight: 2, price: 9.84, amount: 52 }
-]);
+];
 
-export const getBoatInventory = () => boatInventory
+// Different ways to deep clone 
 
-//module.exports = { boatInventory, getBoatInventory }
+// const boatInventory = () => {
+//     return structuredClone(fishes);
+// }
+
+
+// const cloneObject = (obj) => {
+//     return JSON.parse(JSON.stringify(obj));
+//   };
+  
+//   const boatInventory = () => {
+//     return cloneObject(fishes); // Use cloneObject instead of structuredClone
+//   };
+
+const cloneDeep = require('lodash/cloneDeep');
+
+const boatInventory = () => {
+  return cloneDeep(fishes);
+};
+
+module.exports = { boatInventory }

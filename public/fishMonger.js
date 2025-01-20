@@ -1,92 +1,31 @@
-//const { getBoatInventory } = require("./fishingBoat.js")
+const { boatInventory } = require("./fishingBoat.js")
 
-import { getBoatInventory } from "./fishingBoat.js"
+const boatPurchases = boatInventory()
 
-const boatInventory = getBoatInventory()
-
-// Object Array version functions
-// let mongerInventory = []
-// let chefInventory = []
-
-// const mongerPurchases = () => {
-//     boatInventory.forEach(fish => {
-//         if (fish.amount > 10 && fish.price < 7.5) {
-//             fish.amount = 10
-//             mongerInventory.push(fish)
-//         }
-//     }); 
-//     return mongerInventory
-// }
-
-// export const chefPurchases = (chefPrice) => {
-//     mongerInventory = mongerPurchases()
-//     chefInventory = mongerInventory.filter(fish => fish.price <= chefPrice)
-
-//     if (chefInventory.length > 0){
-//         updateInventory()
-//     }
-//     return chefInventory
-// }
-
-// const updateInventory = () => {
-//     mongerInventory.forEach(mongerFish => {
-//         const matchingFish = chefInventory.find(chefFish => chefFish.species === mongerFish.species);  
-//         if (matchingFish) {
-//             matchingFish.amount /= 2;
-//         }
-//     });
-// }
-
-//Map version functions 
-let mongerInventory = new Map()
-let chefInventory = new Map()
-
-const mongerPurchases = () => {
-    boatInventory.forEach(fish => {
-        if (fish.amount > 10 && fish.price < 7.5) {
-            fish.amount = 10
-            mongerInventory.set(fish.id, fish)
+const mongerBuy = () => {
+    const mongerPurchases = []
+    boatPurchases.forEach(fish => {
+        if (fish.amount >= 10 && fish.price <= 7.5) {
+            const boughtFish = Object.assign({}, fish)
+            boughtFish.amount = 10;
+            mongerPurchases.push(boughtFish)
         }
     })
-    return mongerInventory
+    return mongerPurchases
 }
 
-export const chefPurchases = (chefPrice) => {
-    mongerInventory = mongerPurchases()
-    mongerInventory.forEach(fish => {
-        if (fish.price <= chefPrice){
-            chefInventory.set(fish.id, fish)
+const mongerInventory = (chefBudget) => {
+    const chefPurchases = []
+    const mongerPurchases = mongerBuy()
+    mongerPurchases.forEach(fish => {
+        if (fish.price <= chefBudget){
+            const soldFish = Object.assign({}, fish)
+            soldFish.amount /= 2
+            chefPurchases.push(soldFish)
         }
     })
-    updateInventory()
-    return chefInventory
+    return chefPurchases
 }
 
-const updateInventory = () => {
 
-    // Optimized solution O(n + m)
-    const chefFishMap = new Map()
-    chefInventory.forEach(fish => {
-        chefFishMap.set(fish.species, fish)
-    });
-
-    mongerInventory.forEach(mongerFish => {
-        const chefFish = chefFishMap.get(mongerFish.species)
-        if (chefFish){
-            chefFish.amount /= 2
-        }
-    })
-
-    // // Nested loop solution (brute force) O(n * m)
-    // mongerInventory.forEach(mongerFish => {
-    //     chefInventory.forEach(chefFish => {
-    //         if (mongerFish.species === chefFish.species){
-    //             chefFish.amount /= 2
-    //         }
-    //     })
-    // })
-}
-
-const getMongerInventory = () => mongerInventory
-
-//module.exports = { mongerPurchases, chefPurchases, getMongerInventory }
+module.exports = { mongerInventory }

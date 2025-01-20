@@ -1,4 +1,4 @@
-import { mongerInventory } from "../fishMonger.js";
+import { mongerInventory } from "../public/fishMonger.js";
 
 describe("Fishmonger", () => {
     test("Can view all inventory", () => {

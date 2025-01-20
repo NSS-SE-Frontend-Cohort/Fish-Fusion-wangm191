@@ -1,4 +1,4 @@
-import { boatInventory } from "../fishingBoat.js";
+import { boatInventory } from "../public/fishingBoat.js";
 
 describe("Fishing boat", () => {
     test("Can view all inventory", () => {

@@ -1,4 +1,4 @@
-import { fishMenu } from "../restaurant.js";
+import { fishMenu } from "../public/restaurant.js";
 
 describe("Restaurant", () => {
 
